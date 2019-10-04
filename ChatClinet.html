@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        
+    <title>Online Chat</title>
+        
+        <link rel="stylesheet" type="text/css" src="style.css"/>
+        
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+        
+        <style>
+            main {
+                margin: auto;
+                width: 75%
+            }
+            .box {
+                padding: 0.5rem;
+                background-color: #1b1b1b;
+                border-radius: 0.5rem;
+                overflow-y: auto;
+                border: solid #ccc 0.125rem;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                min-height: 700px;
+                color: white;
+            }
+
+            #message {
+
+            }
+
+            #username {
+
+            }
+
+            #message {
+
+            }
+
+            li {
+                padding: 0.5rem;
+                background-color: #1b1b1b;
+                border-radius: 0.5rem;
+                overflow-y: auto;
+                border: solid #ccc 0.125rem;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                text-align: left;
+                max-width: inherit;
+            }
+        </style>
+        
+		<script type="text/javascript" >
+        
+			// Create a new Web Socket connection to the server
+			const ws = new WebSocket("ws://localhost:3000");
+			// Emit a message event
+			// Send a message to the server.
+			function sendMessage() {
+
+                const username = document.getElementById("username").value;
+				//ws.send(username)
+                
+				const message = document.getElementById("message").value;
+				//ws.send(message);
+                
+                const usersMessage = username+": "+message;
+                ws.send(usersMessage);
+                
+                document.getElementById("message").value = "";
+			}
+
+			// On Message events
+			// Listen for message events from the server
+			ws.addEventListener("message", function(event) {
+                
+                // Extract the message text from the data sent from the server.
+				//const usernameData = event.data;
+				// Extract the message text from the data sent from the server.
+				const messageData = event.data;
+
+				// Create the HTML element for displaying the message text on the page.
+				const createMessage = document.createElement("li");
+                //createMessage.appendChild(document.createTextNode(usernameData));
+                
+                //const createList = document.createElement("LI");
+                //const createList = document.createElement("li");
+                
+				createMessage.appendChild(document.createTextNode(messageData));
+				document.getElementById("chatlog").appendChild(createMessage)
+			});
+            
+            
+		</script>
+        
+    </head>
+    <body>
+		<main>
+			<ul id="chatlog" class="box">
+                
+			</ul>
+			<form>
+                <span>Username: </span>
+                <input type="username" id="username" name="name"/>
+				<span>Message: </span>
+				<input type="text" id="message" name="message" />
+				<input type="button" id="send" name="send" value="Send" onclick="sendMessage();" />
+			</form>
+		</main>
+    </body>
+</html>

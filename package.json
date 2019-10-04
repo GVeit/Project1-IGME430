@@ -1,0 +1,26 @@
+{
+  "name": "Project-IGME430",
+  "version": "1.0.0",
+  "description": "Online Chat Server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "test": "echo \"It works\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GVeit/Project1-IGME430.git"
+  },
+  "author": "Gabriel Veit",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/GVeit/Project1-IGME430.git/issues"
+  },
+  "homepage": "https://github.com/GVeit/Project1-IGME430.git#readme",
+  "devDependencies": {
+    "eslint": "^6.4.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}
