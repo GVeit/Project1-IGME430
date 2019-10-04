@@ -27,18 +27,6 @@
                 color: white;
             }
 
-            #message {
-
-            }
-
-            #username {
-
-            }
-
-            #message {
-
-            }
-
             li {
                 padding: 0.5rem;
                 background-color: #1b1b1b;
@@ -66,7 +54,12 @@
 				const message = document.getElementById("message").value;
 				//ws.send(message);
                 
-                const usersMessage = username+": "+message;
+                var d = new Date();
+                
+                d = d.toLocaleString();
+                console.log(d);
+
+                const usersMessage = username + " - " + d + ": " + message;
                 ws.send(usersMessage);
                 
                 document.getElementById("message").value = "";

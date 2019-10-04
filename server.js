@@ -13,34 +13,26 @@ const handlePost = (request, response, parsedUrl) => {
   if (parsedUrl.pathname === '/addUser') {
     const res = response;
 
-    // uploads come in as a byte stream that we need
-    // to reassemble once it's all arrived
     const body = [];
 
-    // if the upload stream errors out, just throw a
-    // a bad request and send it back
+    // if the upload stream errors out, throw an error
     request.on('error', (err) => {
       console.dir(err);
       res.statusCode = 400;
       res.end();
     });
 
-    // on 'data' is for each byte of data that comes in
-    // from the upload. We will add it to our byte array.
+
     request.on('data', (chunk) => {
       body.push(chunk);
     });
 
     // on end of upload stream.
     request.on('end', () => {
-      // combine our byte array (using Buffer.concat)
-      // and convert it to a string value (in this instance)
+      // combine our byte array (using Buffer.concat) and convert it to a string value 
       const bodyString = Buffer.concat(body).toString();
-      // since we are getting x-www-form-urlencoded data
-      // the format will be the same as querystrings
       // Parse the string into an object by field name
       const bodyParams = query.parse(bodyString);
-
       // pass to our addUser function
       jsonHandler.addUser(request, res, bodyParams);
     });
@@ -70,8 +62,7 @@ const onRequest = (request, response) => {
   // returns an object of url parts by name
   const parsedUrl = url.parse(request.url);
 
-  // check if method was POST, otherwise assume GET
-  // for the sake of this example
+  // check if method was POST
   if (request.method === 'POST') {
     handlePost(request, response, parsedUrl);
   } else {
@@ -87,7 +78,7 @@ if (request.method === "GET") {
   // Handle requests to the / URL
   if (request.url === "/") {
    // Read in HTML file from the file system to be sent to the client
-   fs.readFile(path.join(__dirname, "ChatClinet.html"), function(error, file) {
+   fs.readFile(path.join(__dirname, "client/client.html"), function(error, file) {
     // Handle possible error in reading file
     if (error) {
      response.statusCode = 500;
@@ -105,11 +96,23 @@ if (request.method === "GET") {
    response.end(`${response.statusCode}: ${response.statusMessage}`);
   }
 // Handle requests to HTTP methods not supported
+} else if (parsedUrl.pathname === '/addUser') {
+    const res = response;
+
+    const body = [];
+
+    request.on('error', (err) => {
+      console.dir(err);
+      res.statusCode = 400;
+      res.end();
+    });
+    
 } else {
   response.statusCode = 405;
   response.statusMessage = "Method Not Allowed";
   response.end(`${response.statusCode}: ${response.statusMessage}`);
 }
+    
 });
 
 
@@ -131,7 +134,7 @@ wsServer.on("request", function(request) {
 
 	// store the connection
 	clients[clientId] = connection;
-	console.log(`${new Date()}: Connection accepted ${clientId}`);
+	console.log(`${new Date()}: Active User: ${clientId}`);
 
 	// On Message event
 	// When a client sends a message.
