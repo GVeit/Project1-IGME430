@@ -135,7 +135,9 @@ wsServer.on("request", function(request) {
 	// store the connection
 	clients[clientId] = connection;
 	console.log(`${new Date()}: Active User: ${clientId}`);
-
+    
+    //document.getElementById("manyUsers") = clientID;
+    //manyUser(clientId);
 	// On Message event
 	// When a client sends a message.
 	connection.on("message", function(message) {
