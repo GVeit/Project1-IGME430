@@ -4,8 +4,8 @@ const WebSocketServer = require("websocket").server;
 const fs = require("fs"); // Allows for reading from your file system
 const path = require("path"); // Allows for constructing file paths
 
-const port = process.env.PORT || process.env.NODE_PORT || 3000;
-
+//const port = process.env.PORT || process.env.NODE_PORT || 3000;
+const port = 3000;
 
 // handle POST requests
 const handlePost = (request, response, parsedUrl) => {
@@ -159,8 +159,8 @@ wsServer.on("request", function(request) {
 });
 
 
-server.listen(3000, function() {
-	console.info("Listening on 127.0.0.1:3000");
+server.listen(port, function() { // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	console.info(`Listening on 127.0.0.1: ${port}`);
 });
 
 

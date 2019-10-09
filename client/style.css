@@ -1,0 +1,27 @@
+    main {
+        margin: auto;
+        width: 75%
+    }
+    .box {
+        padding: 0.5rem;
+        background-color: #1b1b1b;
+        border-radius: 0.5rem;
+        overflow-y: auto;
+        border: solid #ccc 0.125rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        min-height: 700px;
+        color: white;
+    }
+
+    li {
+        padding: 0.5rem;
+        background-color: #1b1b1b;
+        border-radius: 0.5rem;
+        overflow-y: auto;
+        border: solid #ccc 0.125rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        text-align: left;
+        max-width: inherit;
+    }
