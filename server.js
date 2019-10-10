@@ -4,8 +4,8 @@ const WebSocketServer = require("websocket").server;
 const fs = require("fs"); // Allows for reading from your file system
 const path = require("path"); // Allows for constructing file paths
 
-//const port = process.env.PORT || process.env.NODE_PORT || 3000;
-const port = 3000;
+const port = process.env.PORT || process.env.NODE_PORT || 3000;
+//const port = 3000;
 
 // handle POST requests
 const handlePost = (request, response, parsedUrl) => {
