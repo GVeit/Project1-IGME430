@@ -44,7 +44,19 @@
         
 			// Create a new Web Socket connection to the server
 			//const ws = new WebSocket("ws://localhost:3000");// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-            const ws = new WebSocket("ws://veit-project1.herokuapp.com/");
+            //const ws = new WebSocket("ws://veit-project1.herokuapp.com/");
+            
+            
+            
+            var HOST = location.origin.replace(/^http/, 'ws')
+            var ws = new WebSocket(HOST);
+            var el = document.getElementById('server-time');
+
+            ws.onmessage = function (event) {
+              el.innerHTML = 'Server time: ' + event.data;
+            };
+            
+            
 			// Emit a message event
 			// Send a message to the server.
 			function sendMessage() {
