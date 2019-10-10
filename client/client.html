@@ -11,20 +11,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
         
         <style>
-            main {
+
+            html {
                 margin: auto;
-                width: 75%
+                width: 90%;
+                background-color: #0b0c10;
+                max-height:1000px;
             }
             .box {
-                padding: 0.5rem;
-                background-color: #1b1b1b;
-                border-radius: 0.5rem;
-                overflow-y: auto;
-                border: solid #ccc 0.125rem;
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-                min-height: 700px;
-                color: white;
+
             }
 
             li {
@@ -37,7 +32,97 @@
                 margin-bottom: 1rem;
                 text-align: left;
                 max-width: inherit;
+                margin-right: 10px;
             }
+            
+            #send {
+                
+                border: none;
+                color: white;
+                padding: 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 12px;
+                background-color: #d83f87;
+                width: 100px;
+                float: right;
+                
+            }
+            
+            .grid-container {
+                display: grid;
+                grid-template-columns: 250px 1fr;
+                grid-template-rows: 100px 90%;
+                grid-template-areas: "Header Header" "SideMenu Main";
+                height: 90%;
+            }
+
+            .Main { 
+                
+                grid-area: Main; 
+            
+            }
+
+
+            .Header { 
+                
+                grid-area: Header; 
+                background-color: #44318d;
+                
+            }
+
+            .SideMenu { 
+                
+                grid-area: SideMenu; 
+                background-color: #2a1b3d;
+                
+            }
+            
+            
+            .box-grid-container {
+                
+                display: grid;
+                grid-template-columns: 100%;
+                grid-template-rows: 3fr 1fr;
+                grid-template-areas: "chatBox" "messageBox";
+                grid-gap: 10px;
+                margin: 10px;
+            }
+            
+
+            .box-chatBox { 
+                
+                background-color: #1f2833;
+                border-radius: 0.5rem;
+                overflow-y: inherit;
+                min-height: 700px;
+                color: white;
+                margin-bottom: 0px;
+                
+            }
+            
+            
+            /* Custom Scrollbar from https://codepen.io/seanmccaffery/pen/snadI */
+            .box-chatBox -webkit-scrollbar {
+                width: 8px;
+            }
+
+            .box-chatBox -webkit-scrollbar-track {
+                background: white;
+            }
+
+            .box-chatBox -webkit-scrollbar-thumb {
+                background: rgba(255,0,0,0.8);
+            }
+
+            .box-chatBox -webkit-scrollbar-thumb:hover {
+                background: rgba(255,0,0,0.8);
+            }
+
         </style>
         
 		<script type="text/javascript" >
@@ -102,17 +187,48 @@
         
     </head>
     <body>
-		<main>
-			<ul id="chatlog" class="box">
+
+        <div class="grid-container">
+            
+            <div class="Main">
                 
-			</ul>
-			<form>
-                <span>Username: </span>
-                <input type="username" id="username" name="name"/>
-				<span>Message: </span>
-				<input type="text" id="message" name="message" />
-				<input type="button" id="send" name="send" value="Send" onclick="sendMessage();" />
-			</form>
-		</main>
+                <div class="box-grid-container">
+                    
+                    <div class="box-chatBox">
+                        
+                        <ul id="chatlog">
+                        </ul>
+                        
+                    </div>
+                        
+                    
+                    <div class="box-messageBox">
+                    
+                        <form>
+                            <textarea id="message" name="message" style='width:100%;height:200px;margin-top: 0;' >
+                            
+                            </textarea>
+                            
+                            <input type="button" id="send" name="send" value="Send" onclick="sendMessage();" />
+                        </form>
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="Header">
+            
+            </div>
+            
+            <div class="SideMenu">
+                    <span>Username: </span>
+                    <input type="username" id="username" name="name"/>
+            
+            </div>
+            
+        </div>
+        
     </body>
 </html>
