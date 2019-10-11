@@ -4,7 +4,7 @@
         
     <title>Online Chat</title>
         
-        <link rel="stylesheet" type="text/css" src="style.css"/>
+        <link rel="stylesheet" type="text/css" href="/style.css"/>
         
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,115 +12,6 @@
         
         <style>
 
-            html {
-                margin: auto;
-                width: 90%;
-                background-color: #0b0c10;
-            }
-            .box {
-
-            }
-
-            li {
-                padding: 0.5rem;
-                background-color: #1b1b1b;
-                border-radius: 0.5rem;
-                overflow-y: auto;
-                border: solid #ccc 0.125rem;
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-                text-align: left;
-                max-width: inherit;
-                margin-right: 10px;
-            }
-            
-            #send {
-                
-                border: none;
-                color: white;
-                padding: 10px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                cursor: pointer;
-                border-radius: 12px;
-                background-color: #d83f87;
-                width: 100px;
-                float: right;
-                
-            }
-            
-            .grid-container {
-                display: grid;
-                grid-template-columns: 250px 1fr;
-                grid-template-rows: 100px 90%;
-                grid-template-areas: "Header Header" "SideMenu Main";
-                height: 90%;
-            }
-
-            .Main { 
-                
-                grid-area: Main; 
-            
-            }
-
-
-            .Header { 
-                
-                grid-area: Header; 
-                background-color: #44318d;
-                
-            }
-
-            .SideMenu { 
-                
-                grid-area: SideMenu; 
-                background-color: #2a1b3d;
-                
-            }
-            
-            
-            .box-grid-container {
-                
-                display: grid;
-                grid-template-columns: 100%;
-                grid-template-rows: 3fr 1fr;
-                grid-template-areas: "chatBox" "messageBox";
-                grid-gap: 10px;
-                margin: 10px;
-            }
-            
-
-            .box-chatBox { 
-                
-                background-color: #1f2833;
-                border-radius: 0.5rem;
-                overflow-y: inherit;
-                min-height: 700px;
-                color: white;
-                margin-bottom: 0px;
-                
-            }
-            
-            
-            /* Custom Scrollbar from https://codepen.io/seanmccaffery/pen/snadI */
-            .box-chatBox -webkit-scrollbar {
-                width: 8px;
-            }
-
-            .box-chatBox -webkit-scrollbar-track {
-                background: white;
-            }
-
-            .box-chatBox -webkit-scrollbar-thumb {
-                background: rgba(255,0,0,0.8);
-            }
-
-            .box-chatBox -webkit-scrollbar-thumb:hover {
-                background: rgba(255,0,0,0.8);
-            }
 
         </style>
         
@@ -145,7 +36,7 @@
 			// Send a message to the server.
 			function sendMessage() {
 
-                const username = document.getElementById("username").value;
+                const username = document.getElementById("nameField").value;
 				//ws.send(username)
                 
 				const message = document.getElementById("message").value;
@@ -182,49 +73,127 @@
 				document.getElementById("chatlog").appendChild(createMessage)
 			});
             
+            
+            /*
+            //function to send our post request
+            //function to send our post reques
+            const sendPost = (e, nameForm) => {
+              //grab the forms action (url to go to)
+              //and method (HTTP method - POST in this case)
+              const nameAction = nameForm.getAttribute('action');
+              const nameMethod = nameForm.getAttribute('method');
+
+              //grab the form's name and age fields so we can check user input
+              const nameField = nameForm.querySelector('#nameField');
+
+              //create a new Ajax request (remember this is asynchronous)
+              const xhr = new XMLHttpRequest();
+              //set the method (POST) and url (action field from form)
+              xhr.open(nameMethod, nameAction);
+
+              //set our request type to x-www-form-urlencoded
+              //which is one of the common types of form data. 
+              //This type has the same format as query strings key=value&key2=value2
+              xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+              //set our requested response type in hopes of a JSON response
+              xhr.setRequestHeader ('Accept', 'text/xml');
+
+              //set our function to handle the response
+              xhr.onload = () => handleResponse(xhr);
+
+              //build our x-www-form-urlencoded format. Without ajax the 
+              //browser would do this automatically but it forcefully changes pages
+              //which we don't want.
+              //The format is the same as query strings, so key=value&key2=value2
+              //The 'name' fields from the inputs are the variable names sent to
+              //the server. 
+              //So ours might look like  name=test&age=22
+              //Again the 'name' fields in the form are the variable names in the string
+              //and the variable names the server will look for.
+              const formData = `name=${nameField.value}&age=${ageField.value}`;
+
+              //send our request with the data
+              xhr.send(formData);
+
+              //prevent the browser's default action (to send the form on its own)
+              e.preventDefault();
+              //return false to prevent the browser from trying to change page
+              return false;
+            };
+
+            const init = () => {
+                //grab form
+                const nameForm = document.querySelector('#nameForm');
+
+                const request = (e) => {
+                    const urlField = document.querySelector('#urlField').value;
+                    const methodSelect = document.querySelector('#methodSelect').value;
+                    console.log(urlField);
+                    //sendAjax(e, userForm, methodSelect);
+                    sendAjax(e, urlField, methodSelect);
+                }
+
+                //create handler
+                const addUser = (e) => {
+                    sendPost(e, nameForm);
+                }
+                  //attach submit event (for clicking submit or hitting enter)
+                  nameForm.addEventListener('submit', addUser);
+            };
+
+            window.onload = init;
+
+            */
 		</script>
         
     </head>
     <body>
-
-        <div class="grid-container">
+        <div id="background">
             
-            <div class="Main">
-                
-                <div class="box-grid-container">
-                    
-                    <div class="box-chatBox">
-                        
-                        <ul id="chatlog">
-                        </ul>
-                        
-                    </div>
-                        
-                    
-                    <div class="box-messageBox">
-                    
-                        <form>
-                            <textarea id="message" name="message" style='width:100%;height:200px;margin-top: 0;' >
+            <div class="grid-container">
+
+                <div class="Main">
+
+                    <div class="box-grid-container">
+
+                        <div class="box-chatBox">
+
+                            <ul id="chatlog">
+                            </ul>
+
+                        </div>
+
+
+                        <div class="box-messageBox">
+
+                            <form>
+                                <textarea id="message" name="message" style='width:100%;height:200px;margin-top: 0;resize: none;border-radius: 0.5rem; background-color: #161618; color:white;border:none;padding: 10px;' >
+                                </textarea>
+                            </form>
                             
-                            </textarea>
-                            
-                            <input type="button" id="send" name="send" value="Send" onclick="sendMessage();" />
-                        </form>
-                    
+                            <div id="userWrapper">
+                                    
+                                <span>Username: </span>
+                                <input type="username" id="nameField" name="name" style="margin-top: 10px;width: 200px;border-radius: 12px;border: none;padding: 5px;"/> 
+                                <input type="button" id="send" name="send" value="Send" onclick="sendMessage();" />
+                                    
+                            </div>
+
+                        </div>
+
                     </div>
-                    
+
                 </div>
                 
-            </div>
-            
-            <div class="Header">
-            
-            </div>
-            
-            <div class="SideMenu">
-                    <span>Username: </span>
-                    <input type="username" id="username" name="name"/>
-            
+                <div class="Header">
+                    <<img src="eclipseLogo.png" alt="eclispe" width="300">
+                </div>
+
+
+                <div class="SideMenu">
+
+                </div>
+
             </div>
             
         </div>

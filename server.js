@@ -3,9 +3,17 @@ const WebSocketServer = require("websocket").server;
 
 const fs = require("fs"); // Allows for reading from your file system
 const path = require("path"); // Allows for constructing file paths
+const url = require('url');
 
-const port = process.env.PORT || process.env.NODE_PORT || 3000;
+
+const htmlHandler = require('./htmlResponses.js');
+
+const port = process.env.PORT || process.env.NODE_PORT || 3001;
 //const port = 3000;
+
+
+
+/* add new username */
 
 // handle POST requests
 const handlePost = (request, response, parsedUrl) => {
@@ -39,23 +47,33 @@ const handlePost = (request, response, parsedUrl) => {
   }
 };
 
+
 // handle GET requests
+
 const handleGet = (request, response, parsedUrl) => {
   // route to correct method based on url
 
   // grab the 'accept' headers (comma delimited) and split them into an array
   const acceptedTypes = request.headers.accept.split(',');
+    
+    console.dir(parsedUrl.pathname);
 
   if (parsedUrl.pathname === '/style.css') {
     htmlHandler.getCSS(request, response);
-  } else if (parsedUrl.pathname === '/getUsers') {
-    jsonHandler.getUsers(request, response);
   } else if (parsedUrl.pathname === '/') {
     htmlHandler.getIndex(request, response);
-  } else {
-    jsonHandler.notFound(request, response, acceptedTypes);
+  } else if (parsedUrl.pathname === '/eclipseLogo.png') {
+    htmlHandler.getLogo(request, response);
   }
+  //  else if (parsedUrl.pathname === '/getUsers') {
+  //  jsonHandler.getUsers(request, response);
+  //} else if (parsedUrl.pathname === '/') {
+  //  htmlHandler.getIndex(request, response);
+  //} else {
+  //  jsonHandler.notFound(request, response, acceptedTypes);
+  //}
 };
+
 
 const onRequest = (request, response) => {
   // parse url into individual parts
@@ -72,48 +90,50 @@ const onRequest = (request, response) => {
 
 
 // Create the Node HTTP server environment and listen for connections on port 1234
-const server = http.createServer(function(request, response) {
-// Handle HTTP GET method requests
-if (request.method === "GET") {
-  // Handle requests to the / URL
-  if (request.url === "/") {
-   // Read in HTML file from the file system to be sent to the client
-   fs.readFile(path.join(__dirname, "client/client.html"), function(error, file) {
-    // Handle possible error in reading file
-    if (error) {
-     response.statusCode = 500;
-     response.statusMessage = "Internal Server Error";
-     response.end(`${response.statusCode}: ${response.statusMessage}`);
-     return;
-    }
-    // If no error, send the file
-    response.end(file);
-   });
-  // Handle requests to URLs that don't exist
-  } else {
-   response.statusCode = 404;
-   response.statusMessage = "Not Found";
-   response.end(`${response.statusCode}: ${response.statusMessage}`);
-  }
-// Handle requests to HTTP methods not supported
-} else if (parsedUrl.pathname === '/addUser') {
-    const res = response;
-
-    const body = [];
-
-    request.on('error', (err) => {
-      console.dir(err);
-      res.statusCode = 400;
-      res.end();
-    });
+const server = http.createServer(onRequest);
     
-} else {
-  response.statusCode = 405;
-  response.statusMessage = "Method Not Allowed";
-  response.end(`${response.statusCode}: ${response.statusMessage}`);
-}
-    
-});
+//    function(request, response) {
+//// Handle HTTP GET method requests
+//if (request.method === "GET") {
+//  // Handle requests to the / URL
+//  if (request.url === "/") {
+//   // Read in HTML file from the file system to be sent to the client
+//   fs.readFile(path.join(__dirname, "client/client.html"), function(error, file) {
+//    // Handle possible error in reading file
+//    if (error) {
+//     response.statusCode = 500;
+//     response.statusMessage = "Internal Server Error";
+//     response.end(`${response.statusCode}: ${response.statusMessage}`);
+//     return;
+//    }
+//    // If no error, send the file
+//    response.end(file);
+//   });
+//  // Handle requests to URLs that don't exist
+//  } else {
+//   response.statusCode = 404;
+//   response.statusMessage = "Not Found";
+//   response.end(`${response.statusCode}: ${response.statusMessage}`);
+//  }
+//// Handle requests to HTTP methods not supported
+//} else if (parsedUrl.pathname === '/addUser') {
+//    const res = response;
+//
+//    const body = [];
+//
+//    request.on('error', (err) => {
+//      console.dir(err);
+//      res.statusCode = 400;
+//      res.end();
+//    });
+//    
+//} else {
+//  response.statusCode = 405;
+//  response.statusMessage = "Method Not Allowed";
+//  response.end(`${response.statusCode}: ${response.statusMessage}`);
+//}
+//    
+//});
 
 
 // Create the Web Socket server from the Node HTTP server.
