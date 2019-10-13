@@ -1,19 +1,19 @@
             html {
                 margin: auto;
                 height: 100%;
-                background-color: rgb(2,0,36);
-                background-image: linear-gradient(339deg, rgb(0, 0, 0) 0%, rgb(43, 43, 43) 100%);
+                background-color: rgb(9,9,15);
+                font-family: 'Roboto', sans-serif;
             }
             
             img {
-                margin-top: 20px;
-                margin-left: 20px;
+                margin-top: 10px;
+                margin-left: 10px;
             }
 
             li {
                 padding: 0.5rem;
                 overflow-y: auto;
-                border-bottom: solid #464646 1px;
+                border-bottom: solid #d83f87 1px;
                 margin-top: 1rem;
                 margin-bottom: 1rem;
                 text-align: left;
@@ -41,11 +41,10 @@
             
             .grid-container {
                 display: grid;
-                grid-template-columns: 250px 1fr;
-                grid-template-rows: 100px 90%;
-                grid-template-areas: "Header Header" "SideMenu Main";
-                height: 90%;
+                grid-template-areas: "Header Header" "Main Main";
+                height: 100%;
             }
+
             span{
                 color: white;
             }
@@ -61,7 +60,7 @@
                 
                 grid-area: Header; 
                 background-color: #111111;
-                
+                height: 80px;
             }
 
             .SideMenu { 
@@ -91,9 +90,30 @@
                 height: 700px;
                 color: white;
                 margin-bottom: 0px;
+                font-family: 'Roboto', sans-serif;
+                border: solid #d83f87 1px;
                 
             }
             
-            #userWrapper {
+            #message {  
                 
+                width:100%;
+                height:200px;
+                margin-top: 0;
+                resize: none;
+                border-radius: 0.5rem; 
+                background-color: #161618; 
+                color:white;
+                border:none;
+                padding-top: 10px;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            #nameField {
+
+                margin-top: 10px
+                width: 200px;
+                border-radius: 12px;
+                border: none;
+                padding: 5px;
             }

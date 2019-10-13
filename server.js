@@ -1,3 +1,5 @@
+//Source: https://socket.io/get-started/chat/
+
 const http = require("http");
 const WebSocketServer = require("websocket").server;
 
@@ -7,13 +9,10 @@ const url = require('url');
 
 
 const htmlHandler = require('./htmlResponses.js');
+const jsonHandler = require('./jsonResponses.js');
 
+// declare a port
 const port = process.env.PORT || process.env.NODE_PORT || 3001;
-//const port = 3000;
-
-
-
-/* add new username */
 
 // handle POST requests
 const handlePost = (request, response, parsedUrl) => {
@@ -64,6 +63,10 @@ const handleGet = (request, response, parsedUrl) => {
     htmlHandler.getIndex(request, response);
   } else if (parsedUrl.pathname === '/eclipseLogo.png') {
     htmlHandler.getLogo(request, response);
+  } else if (parsedUrl.pathname === '/getUsers') {
+    jsonHandler.getUsers(request, response);
+  } else {
+    jsonHandler.notFound(request, response, acceptedTypes);
   }
   //  else if (parsedUrl.pathname === '/getUsers') {
   //  jsonHandler.getUsers(request, response);
@@ -88,53 +91,8 @@ const onRequest = (request, response) => {
   }
 };
 
-
-// Create the Node HTTP server environment and listen for connections on port 1234
+// Create the Node HTTP server environment and listen for connections on port 3000
 const server = http.createServer(onRequest);
-    
-//    function(request, response) {
-//// Handle HTTP GET method requests
-//if (request.method === "GET") {
-//  // Handle requests to the / URL
-//  if (request.url === "/") {
-//   // Read in HTML file from the file system to be sent to the client
-//   fs.readFile(path.join(__dirname, "client/client.html"), function(error, file) {
-//    // Handle possible error in reading file
-//    if (error) {
-//     response.statusCode = 500;
-//     response.statusMessage = "Internal Server Error";
-//     response.end(`${response.statusCode}: ${response.statusMessage}`);
-//     return;
-//    }
-//    // If no error, send the file
-//    response.end(file);
-//   });
-//  // Handle requests to URLs that don't exist
-//  } else {
-//   response.statusCode = 404;
-//   response.statusMessage = "Not Found";
-//   response.end(`${response.statusCode}: ${response.statusMessage}`);
-//  }
-//// Handle requests to HTTP methods not supported
-//} else if (parsedUrl.pathname === '/addUser') {
-//    const res = response;
-//
-//    const body = [];
-//
-//    request.on('error', (err) => {
-//      console.dir(err);
-//      res.statusCode = 400;
-//      res.end();
-//    });
-//    
-//} else {
-//  response.statusCode = 405;
-//  response.statusMessage = "Method Not Allowed";
-//  response.end(`${response.statusCode}: ${response.statusMessage}`);
-//}
-//    
-//});
-
 
 // Create the Web Socket server from the Node HTTP server.
 const wsServer = new WebSocketServer({httpServer : server});
@@ -156,8 +114,6 @@ wsServer.on("request", function(request) {
 	clients[clientId] = connection;
 	console.log(`${new Date()}: Active User: ${clientId}`);
     
-    //document.getElementById("manyUsers") = clientID;
-    //manyUser(clientId);
 	// On Message event
 	// When a client sends a message.
 	connection.on("message", function(message) {
@@ -179,12 +135,8 @@ wsServer.on("request", function(request) {
 });
 
 
-server.listen(port, function() { // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+// running the server
+server.listen(port, function() { 
 	console.info(`Listening on 127.0.0.1: ${port}`);
 });
 
-
-
-//http.createServer(onRequest).listen(port);
-
-//console.log(`Listening on 127.0.0.1: ${port}`);

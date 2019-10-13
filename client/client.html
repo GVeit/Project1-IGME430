@@ -9,6 +9,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
         
         <style>
 
@@ -17,12 +18,10 @@
         
 		<script type="text/javascript" >
         
+            //source: https://socket.io/get-started/chat/
+            
 			// Create a new Web Socket connection to the server
-			//const ws = new WebSocket("ws://localhost:3000");// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-            //const ws = new WebSocket("ws://veit-project1.herokuapp.com/");
-            
-            
-            
+            // change the direction of the link
             var HOST = location.origin.replace(/^http/, 'ws')
             var ws = new WebSocket(HOST);
             var el = document.getElementById('server-time');
@@ -36,20 +35,22 @@
 			// Send a message to the server.
 			function sendMessage() {
 
+                //grab user's name and message text
                 const username = document.getElementById("nameField").value;
-				//ws.send(username)
-                
 				const message = document.getElementById("message").value;
-				//ws.send(message);
                 
-                var d = new Date();
+                //get time stamp
+                  var d = new Date();
+                  var h = d.getHours();
+                  var m = d.getMinutes();
                 
-                d = d.toLocaleString();
-                console.log(d);
-
-                const usersMessage = username + " - " + d + ": " + message;
+                //make a string of the message
+                usersMessage = username + " - " + h + ":" + m + ": " + message;
+                
+                //send the message into the server
                 ws.send(usersMessage);
                 
+                //restart the message
                 document.getElementById("message").value = "";
 			}
 
@@ -57,8 +58,6 @@
 			// Listen for message events from the server
 			ws.addEventListener("message", function(event) {
                 
-                // Extract the message text from the data sent from the server.
-				//const usernameData = event.data;
 				// Extract the message text from the data sent from the server.
 				const messageData = event.data;
 
@@ -73,77 +72,6 @@
 				document.getElementById("chatlog").appendChild(createMessage)
 			});
             
-            
-            /*
-            //function to send our post request
-            //function to send our post reques
-            const sendPost = (e, nameForm) => {
-              //grab the forms action (url to go to)
-              //and method (HTTP method - POST in this case)
-              const nameAction = nameForm.getAttribute('action');
-              const nameMethod = nameForm.getAttribute('method');
-
-              //grab the form's name and age fields so we can check user input
-              const nameField = nameForm.querySelector('#nameField');
-
-              //create a new Ajax request (remember this is asynchronous)
-              const xhr = new XMLHttpRequest();
-              //set the method (POST) and url (action field from form)
-              xhr.open(nameMethod, nameAction);
-
-              //set our request type to x-www-form-urlencoded
-              //which is one of the common types of form data. 
-              //This type has the same format as query strings key=value&key2=value2
-              xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-              //set our requested response type in hopes of a JSON response
-              xhr.setRequestHeader ('Accept', 'text/xml');
-
-              //set our function to handle the response
-              xhr.onload = () => handleResponse(xhr);
-
-              //build our x-www-form-urlencoded format. Without ajax the 
-              //browser would do this automatically but it forcefully changes pages
-              //which we don't want.
-              //The format is the same as query strings, so key=value&key2=value2
-              //The 'name' fields from the inputs are the variable names sent to
-              //the server. 
-              //So ours might look like  name=test&age=22
-              //Again the 'name' fields in the form are the variable names in the string
-              //and the variable names the server will look for.
-              const formData = `name=${nameField.value}&age=${ageField.value}`;
-
-              //send our request with the data
-              xhr.send(formData);
-
-              //prevent the browser's default action (to send the form on its own)
-              e.preventDefault();
-              //return false to prevent the browser from trying to change page
-              return false;
-            };
-
-            const init = () => {
-                //grab form
-                const nameForm = document.querySelector('#nameForm');
-
-                const request = (e) => {
-                    const urlField = document.querySelector('#urlField').value;
-                    const methodSelect = document.querySelector('#methodSelect').value;
-                    console.log(urlField);
-                    //sendAjax(e, userForm, methodSelect);
-                    sendAjax(e, urlField, methodSelect);
-                }
-
-                //create handler
-                const addUser = (e) => {
-                    sendPost(e, nameForm);
-                }
-                  //attach submit event (for clicking submit or hitting enter)
-                  nameForm.addEventListener('submit', addUser);
-            };
-
-            window.onload = init;
-
-            */
 		</script>
         
     </head>
@@ -165,20 +93,22 @@
 
 
                         <div class="box-messageBox">
+                                <form id="nameForm" method="post">
+                                    <form>
+                                        <textarea id="message" name="message" required></textarea>
+                                    </form>
 
-                            <form>
-                                <textarea id="message" name="message" style='width:100%;height:200px;margin-top: 0;resize: none;border-radius: 0.5rem; background-color: #161618; color:white;border:none;padding: 10px;' >
-                                </textarea>
-                            </form>
+                                    <div id="userWrapper">
+
+                                        <span>Username: </span>
+
+                                        <input type="text" id="nameField" name="name" required/> 
+                                        
+                                        <input type="submit" id="send" name="send" value="Send" onclick="sendMessage();" />
+
+                                    </div>
+                                </form>
                             
-                            <div id="userWrapper">
-                                    
-                                <span>Username: </span>
-                                <input type="username" id="nameField" name="name" style="margin-top: 10px;width: 200px;border-radius: 12px;border: none;padding: 5px;"/> 
-                                <input type="button" id="send" name="send" value="Send" onclick="sendMessage();" />
-                                    
-                            </div>
-
                         </div>
 
                     </div>
@@ -187,11 +117,6 @@
                 
                 <div class="Header">
                     <<img src="eclipseLogo.png" alt="eclispe" width="300">
-                </div>
-
-
-                <div class="SideMenu">
-
                 </div>
 
             </div>
